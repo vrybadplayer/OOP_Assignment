@@ -1,18 +1,17 @@
 package oop_assignment;
-
 import java.util.*;
 
 public class Driver {
 
+    public static int index = 0;
+
     public static void main(String[] args) {
-        
+
         Scanner scanner = new Scanner(System.in);
+        Groceries[] groceries = new Groceries[25];
 
-        int choice;
-
-        System.out.println("Welcome!");
         displayOptions();
-        choice = scanner.nextInt();
+        int choice = scanner.nextInt();
 
         switch (choice) {
             case 1:
@@ -26,6 +25,12 @@ public class Driver {
                 break;
             case 4:
                 System.out.println("4");
+                break;
+            case 5:
+                System.out.println("5");
+                break;
+            case 6:
+                System.out.println("6");
                 break;
             default:
                 System.out.println("OOB");
@@ -43,4 +48,10 @@ public class Driver {
         System.out.println("6. Promotion/sale of the day");
         System.out.print("Input: ");
     }
+
+    public static void displayGroceries() {
+        
+    }
+    
+    
 }
