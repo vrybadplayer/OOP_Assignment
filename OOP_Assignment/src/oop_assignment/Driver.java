@@ -1,4 +1,5 @@
 package oop_assignment;
+
 import java.util.*;
 
 public class Driver {
@@ -13,6 +14,22 @@ public class Driver {
         displayOptions();
         int choice = scanner.nextInt();
 
+        choice(choice);
+        
+    }
+
+    public static void displayOptions() {
+        System.out.println("Choose action");
+        System.out.println("1. List of groceries");
+        System.out.println("2. Grocery ordering");
+        System.out.println("3. Stock");
+        System.out.println("4. Membership");
+        System.out.println("5. Report and analytics");
+        System.out.println("6. Promotion/sale of the day");
+        System.out.print("Input: ");
+    }
+
+    public static void choice(int choice) {
         switch (choice) {
             case 1:
                 System.out.println("1");
@@ -38,20 +55,8 @@ public class Driver {
         }
     }
 
-    public static void displayOptions() {
-        System.out.println("Choose action");
-        System.out.println("1. List of groceries");
-        System.out.println("2. Grocery ordering");
-        System.out.println("3. Stock");
-        System.out.println("4. Membership");
-        System.out.println("5. Report and analytics");
-        System.out.println("6. Promotion/sale of the day");
-        System.out.print("Input: ");
+    public static void displayGroceries() {
+
     }
 
-    public static void displayGroceries() {
-        
-    }
-    
-    
 }
