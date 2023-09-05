@@ -1,54 +1,59 @@
 package oop_assignment;
 
-public class Groceries {
+import java.util.ArrayList;
 
-    private String groceryName;
-    private String category;
-    private double price = 0;
-    private int stock;
+public class Groceries extends Stock {
 
-    public Groceries(String groceryName, String category, double price, int stock) {
-        this.groceryName = groceryName;
-        this.category = category;
-        this.price = price;
-        this.stock = stock;
+    private ArrayList<String> groceries = new ArrayList<>() {
+        {
+            add("Milk");
+            add("Bread");
+            add("Eggs");
+            add("Cheese");
+            add("Water");
+            add("Rice");
+            add("Chicken");
+            add("Beef");
+            add("Apples");
+            add("Bananas");
+        }
+    };
+
+    private ArrayList<Double> price = new ArrayList<>() {
+        {
+            add(7.00);
+            add(3.50);
+            add(6.60);
+            add(10.00);
+            add(2.40);
+            add(25.00);
+            add(9.00);
+            add(16.50);
+            add(4.70);
+            add(2.45);
+        }
+    };
+
+    public Groceries() {
+
+    }
+    
+    public String getGroceryName(int index) {
+        return groceries.get(index);
+    }
+    
+    public double getGroceryPrice(int index){
+        return price.get(index);
     }
 
-    public String toString() {
-        return String.format("%-15s %-13s %-6.2f %-7d", groceryName, category, price, stock);
+    public ArrayList<String> getGroceries() {
+        return groceries;
     }
 
-    public double getPrice() {
+    public ArrayList<Double> getPrice() {
         return price;
     }
 
-    public int getStock() {
-        return stock;
-    }
-
-    public String getGroceryName() {
-        return groceryName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setGroceryName(String groceryName) {
-        this.groceryName = groceryName;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
     
-    //Delete?
+    
 }
