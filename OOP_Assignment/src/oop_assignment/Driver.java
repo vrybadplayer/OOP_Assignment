@@ -4,60 +4,44 @@ import java.util.*;
 
 public class Driver {
 
-    public static int index = 0;
+    private static boolean proceed = false;
+    private static double balance = 1000.00;
 
     public static void main(String[] args) {
-        Groceries groceries = new Groceries();
-        Order order = new Order();
-        Payment payment = new Payment();
-        //User Inputs
-        order.getOrder(order, groceries);
-        payment.displayDetails();
-        order.displayCash();
-    }
 
-    //Temporary whatever
-    public static void choice(int choice) {
-        switch (choice) {
-            case 1:
-                System.out.println("1");
-                break;
-            case 2:
-                System.out.println("2");
-                break;
-            case 3:
-                System.out.println("3");
-                break;
-            case 4:
-                System.out.println("4");
-                break;
-            case 5:
-                System.out.println("5");
-                break;
-            case 6:
-                System.out.println("6");
-                break;
-            case 7:
-                System.out.println("7");
-                break;
-            case 8:
-                System.out.println("8");
-                break;
-            case 9:
-                System.out.println("9");
-                break;
-            case 10:
-                System.out.println("10");
-                break;
-            default:
-                System.out.println("OOB");
-                break;
+        Groceries groceries;
+        Payment payment;
+        Order order;
+        Receipt receipt;
+        
+        do {
+            //Create objects
+            groceries = new Groceries();
+            payment = new Payment();
+            order = new Order();
+            receipt = new Receipt();
+
+            //User Inputs
+            payment.getOrder(order, groceries);
+            //Display
+            payment.displayOrders(groceries);
+            payment.displayCash();
+            proceed = payment.proceedPayment();
+            balance = payment.pay(balance);
+        } while (!proceed);
+        
+        boolean receiptDecision = receipt.receiptDecision();
+        
+        if (receiptDecision){
+            receipt.printReceipt();
         }
+        
+        System.out.println("\nThank you for using Trapstar Groceries!\n\n");
     }
 
     //Should be from Groceries class
     public static void displayGroceries() {
-        System.out.println("1. Milk");
+        System.out.println("\n1. Milk");
         System.out.println("2. Bread");
         System.out.println("3. Eggs");
         System.out.println("4. Cheese");
@@ -71,11 +55,8 @@ public class Driver {
     }
 
     //cls
-    public static void clearScreen() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (Exception E) {
-            System.out.println(E);
-        }
+    public static void cls() {
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     }
+
 }

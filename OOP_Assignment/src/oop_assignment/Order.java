@@ -9,13 +9,14 @@ public class Order {
     private int choice = 0;
     private int amount = 0;
     private double total = 0;
-    private double subTotal = 0;
     static final double tax = 0.06;
-    private String decision;
+    private String decision = "";
     private Groceries groceries;
     private int arrayListIndex = 0;
     private ArrayList<Integer> groceryIndex = new ArrayList<Integer>();
     private ArrayList<Integer> groceryAmount = new ArrayList<Integer>();
+    //Subtotal should be arraylist so the printing can use the same method as above
+    private double subTotal = 0;
 
     public Order() {
 
@@ -30,11 +31,11 @@ public class Order {
     }
 
     public void setGroceryIndex(ArrayList<Integer> groceryIndex, int indexNo) {
-        this.groceryIndex.add(arrayListIndex, indexNo);
+        this.groceryIndex.set(arrayListIndex, indexNo);
     }
 
     public void setGroceryAmount(ArrayList<Integer> groceryAmount, int amount) {
-        this.groceryAmount.add(arrayListIndex, amount);
+        this.groceryAmount.set(arrayListIndex, amount);
     }
 
     public ArrayList<Integer> getGroceryIndex() {
@@ -93,33 +94,17 @@ public class Order {
         total += price * amount;
     }
 
-    public double calculateTax() {
-        return total * tax;
-    }
-
-    public double calculateSubTotal() {
-        return total + (total * tax);
-    }
-
-    public void displayCash() {
-        System.out.printf("\nTotal is: RM %.2f\n", getTotal());
-        System.out.printf("Tax is: RM %.2f\n", calculateTax());
-        System.out.printf("Sub total is: RM %.2f\n", calculateSubTotal());
-    }
-
     public void getOrder(Order order, Groceries groceries) {
-        Scanner scanner = new Scanner(System.in);
-
         do {
-
+            Scanner scanner = new Scanner(System.in);
             displayGroceries();
             setChoice(scanner.nextInt());
-
             System.out.print("How many would you like to buy: ");
             setAmount(scanner.nextInt());
 
-            order.addTotal(groceries.getGroceryPrice(choice - 1), amount);
-            storePurchases(groceryIndex, groceryAmount, (choice - 1), amount);
+            addTotal(groceries.getGroceryPrice(choice - 1), amount);
+            storePurchases((choice - 1), amount);
+
             do {
 
                 System.out.print("Buy more? (y/n): ");
@@ -135,9 +120,9 @@ public class Order {
 
     }
 
-    public void storePurchases(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, int indexNo, int amount) {
-        setGroceryIndex(groceryIndex, indexNo);
-        setGroceryAmount(groceryAmount, amount);
+    public void storePurchases(int indexNo, int amount) {
+        groceryIndex.add(indexNo);
+        groceryAmount.add(amount);
         arrayListIndexIncrement();
     }
 
