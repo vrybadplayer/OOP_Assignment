@@ -1,6 +1,5 @@
 package oop_assignment;
 
-import com.sun.source.tree.ContinueTree;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,11 +7,16 @@ public class Payment extends Order {
 
     private String proceed = "";
     private double grandTotal = 0;
+    private boolean insufficientBalance = false;
 
     public Payment() {
         super();
     }
 
+    public boolean isInsufficientBalance() {
+        return insufficientBalance;
+    }
+    
     public double calculateTax() {
         return getTotal() * tax;
     }
@@ -37,17 +41,19 @@ public class Payment extends Order {
         System.out.printf("Grand total is: RM %.2f\n", getGrandTotal());
     }
 
-    public void displayOrders(Groceries groceries) {
-        System.out.printf("\n%-15s %-9s\n", "Items", "Amount");
-        orderListing(getGroceryIndex(), getGroceryAmount(), groceries.getGroceries(), groceries.getPrice());
-
+    public void displayOrders(Groceries groceries, Order order) {
+        System.out.println("\n[-----------------+-----------+---------------]");
+        System.out.printf("| %-15s | %-9s | %-9s |\n", "Items", "Amount", "Sub Total(RM)");
+        System.out.println("|-----------------+-----------+---------------|");
+        orderListing(getGroceryIndex(), getGroceryAmount(), groceries.getGroceries(), getSubTotal());
     }
 
-    public void orderListing(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, ArrayList<String> groceries, ArrayList<Double> price) {
+    public void orderListing(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, ArrayList<String> groceries, ArrayList<Double> subTotal) {
         for (int i = 0; i < groceryIndex.size(); ++i) {
-            // Items, Amount, Price, Total
-            System.out.printf("%-15s %-9d\n", groceries.get(groceryIndex.get(i)), groceryAmount.get(i));
+            // Items, Amount, Subtotal
+            System.out.printf("| %-15s | %-9d | %13.2f |\n", groceries.get(groceryIndex.get(i)), groceryAmount.get(i), subTotal.get(i));
         }
+        System.out.println("[-----------------+-----------+---------------]");
     }
 
     public boolean proceedPayment() {
@@ -72,6 +78,7 @@ public class Payment extends Order {
     public double pay(double balance) {
         if (getTotal() > balance) {
             System.out.printf("\nInsufficient balance! \nYou only have RM%.2f, you need RM%.2f more.\n", balance, getGrandTotal() - balance);
+            insufficientBalance = true;
             return balance;
         } else {
             System.out.printf("\nPayment successful! You now have RM%.2f\n", balance - getGrandTotal());
@@ -79,9 +86,8 @@ public class Payment extends Order {
         }
     }
 
-    public double calculatePoints() {
-        return getTotal() * 0.05;
+    public int calculateLoyaltyPoints() {
+        return (int) Math.round(getTotal() * 0.05);
     }
-    
 
 }

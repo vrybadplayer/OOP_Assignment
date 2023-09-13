@@ -1,0 +1,10 @@
+Victor|Victor123!|victor123@gmail.com|019-2331030|dasadsasdasd|1000|92.58
+KaiYuan|KaiYuan123!|dasdas@gmail.com|019-6551030|asdasdas|1000|100.00
+Alice|Alice123!|alice@gmail.com|019-1234567|xyzabc|1000|100.00
+Bob|Bob456!|bob@email.com|019-9876543|qwerty|1000|0.00
+Carol|Carol789!|carol@example.com|019-5555555|password|1000|0.00
+David|David123!|david@mail.com|019-1111111|letmein|1000|0.00
+Eve|Eve456!|eve@domain.com|019-9999999|secure123|1000|0.00
+Frank|Frank789!|frank@site.com|019-7777777|changeme|1000|0.00
+Grace|Grace123!|grace@web.com|019-8888888|12345678|1000|0.00
+Henry|Henry456!|henry@service.com|019-6666666|access123|1000|0.00

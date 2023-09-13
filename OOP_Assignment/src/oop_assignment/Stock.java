@@ -12,10 +12,6 @@ public class Stock {
         this.stock = stock;
     }
     
-    public String toString(){
-        return String.format("%-7d", stock);
-    }
-    
     public int getStock() {
         return stock;
     }

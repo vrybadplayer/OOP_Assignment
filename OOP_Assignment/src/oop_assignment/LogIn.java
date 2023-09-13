@@ -1,58 +1,68 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package oop_assignment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- * @author lolka
- */
-public class LogIn {
+public class LogIn implements CustomerManager {
 
-    public void membership() {
+    String enteredUsername;
+    String enteredPassword;
+
+    public int membership(ArrayList<Customer> customer) {
         Scanner scanner = new Scanner(System.in);
         boolean loginSuccessful = false;
 
         do {
-            System.out.print("Enter your username: ");
-            String enteredUsername = scanner.next();
+            System.out.print("Enter your username (Enter X to Exit): ");
+            enteredUsername = scanner.nextLine();
+
+            if (enteredUsername.equals("X")) {
+                Driver.displayMainPage(customer);
+                break;
+            }
 
             System.out.print("Enter your password: ");
-            String enteredPassword = scanner.next();
+            enteredPassword = scanner.nextLine();
 
-            try {
-                File file = new File("membership.txt");
-                try (Scanner scanner1 = new Scanner(file)) {
-                    boolean found = false;
-
-                    while (scanner1.hasNextLine()) {
-                        String line = scanner1.nextLine();
-                        String[] data = line.split("\\|");
-
-                        if (data.length >= 2) {
-                            String name = data[0].trim();
-                            String password = data[1].trim();
-
-                            if (enteredUsername.equals(name) && enteredPassword.equals(password)) {
-                                System.out.println("Login successful!");
-                                found = true;
-                                loginSuccessful = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("Login failed. Incorrect username or password.");
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                System.out.println("File Error: " + e.getMessage()); // Print the error message
+            if (isExisting(enteredUsername, enteredPassword)) {
+                System.out.println("Login successful!");
+                Driver.setMember(true);
+                loginSuccessful = true;
+            } else {
+                System.out.println("Login failed. Incorrect username or password. Please try again.");
             }
         } while (!loginSuccessful);
+        return getCustomerIndex(enteredUsername, enteredPassword);
+
     }
+
+    private boolean isExisting(String name, String password) {
+        ArrayList<Customer> customers = CustomerManager.loadCustomersFromFile("membership.txt");
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getName().equals(name) && customers.get(i).getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getCustomerIndex(String name, String password) {
+        ArrayList<Customer> customers = CustomerManager.loadCustomersFromFile("membership.txt");
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).getName().equals(name) && customers.get(i).getPassword().equals(password)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public String getEnteredUsername() {
+        return enteredUsername;
+    }
+
+    public void setEnteredUsername(String enteredUsername) {
+        this.enteredUsername = enteredUsername;
+    }
+
 }

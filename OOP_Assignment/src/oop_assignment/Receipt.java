@@ -2,16 +2,20 @@ package oop_assignment;
 
 import java.util.*;
 
-public class Receipt {
+public class Receipt implements PrintReceipt {
 
-    Scanner scanner = new Scanner(System.in);
+    private int receiptNo = 35000;
+    private Date date = new Date();
+
+    public void receiptNoIncrement() {
+        this.receiptNo++;
+    }
 
     public boolean receiptDecision() {
         String printDecision = "";
-        System.out.println("\nDo you want to print out receipt?");
-
+        Scanner scanner = new Scanner(System.in);
         do {
-            System.out.print("\nProceed to payment(y/n): ");
+            System.out.print("\nDo you want to print out receipt (y/n): ");
             printDecision = scanner.next();
 
             if (!printDecision.equals("y") && !printDecision.equals("n")) {
@@ -25,22 +29,42 @@ public class Receipt {
         } else {
             return false;
         }
-        
+
     }
 
-    public void printReceipt() {
-        System.out.println("\n[Enter Receipt Here]");
+    public double calculatePoints() {
+        return 0;
     }
 
     public int getPoints() {
-
-        //points is accessed from Customer Class
-        //return points;
         return 0;
     }
 
     public void increasePoint(int points) {
         //this.points += points;
+    }
+
+    @Override
+    public void printMemberReceipt(Payment payment, Groceries groceries, Order order) {
+        System.out.println("\nTrapstar Groceries");
+        System.out.println("Bentonville, 702 SW 8th St,");
+        System.out.println("United States\n");
+        System.out.printf("User: REPLACE THIS\n");
+        System.out.println(date);
+        payment.displayOrders(groceries, order);
+        payment.displayCash();
+        System.out.println("Loyalty Points: ");
+        System.out.println("\nRECEIPT NUMBER");
+        System.out.printf("%d\n\n", receiptNo);
+        receiptNoIncrement();
+        System.out.println("Thank You For Shopping At Trapstar");
+        System.out.println("www.trapstar.org");
+        System.out.println("Customer Service: 1-300-22-2828");
+    }
+
+    @Override
+    public void printNonMemberReceipt(Payment payment, Groceries groceries, Order order) {
+    
     }
 
 }
