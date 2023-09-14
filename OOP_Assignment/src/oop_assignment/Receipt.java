@@ -11,6 +11,14 @@ public class Receipt implements PrintReceipt {
         this.receiptNo++;
     }
 
+    public int getReceiptNo() {
+        return receiptNo;
+    }
+
+    public static int calculateLoyaltyPoints() {
+        return (int) Math.round(Order.getTotal() * 0.05);
+    }
+
     public boolean receiptDecision() {
         String printDecision = "";
         Scanner scanner = new Scanner(System.in);
@@ -32,39 +40,40 @@ public class Receipt implements PrintReceipt {
 
     }
 
-    public double calculatePoints() {
-        return 0;
-    }
-
-    public int getPoints() {
-        return 0;
-    }
-
-    public void increasePoint(int points) {
-        //this.points += points;
-    }
-
     @Override
-    public void printMemberReceipt(Payment payment, Groceries groceries, Order order) {
-        System.out.println("\nTrapstar Groceries");
-        System.out.println("Bentonville, 702 SW 8th St,");
-        System.out.println("United States\n");
-        System.out.printf("User: REPLACE THIS\n");
-        System.out.println(date);
+    public void printMemberReceipt(Payment payment, ArrayList<Groceries> groceries, Order order, ArrayList<Customer> customer) {
+        System.out.println("\n               Trapstar Groceries");
+        System.out.println("           Bentonville, 702 SW 8th St,");
+        System.out.println("                 United States\n");
+        System.out.printf("                 User: %s\n", customer.get(Driver.getCustomerIndex()).getName());
+        System.out.println("          " + date);
         payment.displayOrders(groceries, order);
         payment.displayCash();
-        System.out.println("Loyalty Points: ");
-        System.out.println("\nRECEIPT NUMBER");
-        System.out.printf("%d\n\n", receiptNo);
+        System.out.printf("%-14s: %d", "Loyalty Points", calculateLoyaltyPoints());
+        customer.get(Driver.getCustomerIndex()).setLoyaltyPoints(customer.get(Driver.getCustomerIndex()).getLoyaltyPoints() + calculateLoyaltyPoints());
+        System.out.println("\n\n                RECEIPT NUMBER");
+        System.out.printf("                     %d\n\n", getReceiptNo());
         receiptNoIncrement();
-        System.out.println("Thank You For Shopping At Trapstar");
-        System.out.println("www.trapstar.org");
-        System.out.println("Customer Service: 1-300-22-2828");
+        System.out.println("      Thank You For Shopping At Trapstar");
+        System.out.println("              www.trapstar.org");
+        System.out.println("       Customer Service: 1-300-22-2828");
     }
 
     @Override
-    public void printNonMemberReceipt(Payment payment, Groceries groceries, Order order) {
-    
+    public void printNonMemberReceipt(Payment payment, ArrayList<Groceries> groceries, Order order, ArrayList<Customer> customer) {
+        System.out.println("\n               Trapstar Groceries");
+        System.out.println("           Bentonville, 702 SW 8th St,");
+        System.out.println("                 United States\n");
+        System.out.printf("                   User: Guest\n");
+        System.out.println("          " + date);
+        payment.displayOrders(groceries, order);
+        payment.displayCash();
+        System.out.println("\n\n                RECEIPT NUMBER");
+        System.out.printf("                     %d\n\n", getReceiptNo());
+        receiptNoIncrement();
+        System.out.println("      Thank You For Shopping At Trapstar");
+        System.out.println("              www.trapstar.org");
+        System.out.println("       Customer Service: 1-300-22-2828");
     }
 
 }

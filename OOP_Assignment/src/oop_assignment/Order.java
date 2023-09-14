@@ -7,11 +7,10 @@ public class Order {
 
     private int choice = 0;
     private int amount = 0;
-    private double total = 0;
+    private static double total = 0;
     static final double tax = 0.06;
     private int arrayListIndex = 0;
     private String decision = "";
-    private Groceries groceries = new Groceries();
     private ArrayList<Integer> groceryIndex = new ArrayList<Integer>();
     private ArrayList<Integer> groceryAmount = new ArrayList<Integer>();
     private ArrayList<Double> subTotal = new ArrayList<Double>();
@@ -68,7 +67,7 @@ public class Order {
         return amount;
     }
 
-    public double getTotal() {
+    public static double getTotal() {
         return total;
     }
 
@@ -96,21 +95,54 @@ public class Order {
         this.groceryAmount.set(index, groceryAmount.get(index) + amount);
     }
 
+    //Linking
     public void updateSubTotal(int index, int amount) {
         this.subTotal.set(index, calculateSubTotal(index, groceryAmount.get(index)));
     }
 
-    public void getOrder(Order order, Groceries groceries, ArrayList<Double> price) {
+    public double calculateSubTotal(int index, int amount) {
+        ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
+        return (groceries.get(index).getGroceryPrice() * amount);
+    }
+
+    public void getOrder(Order order, ArrayList<Groceries> groceries) {
 
         boolean updated = false;
+        boolean isNumber = false;
 
         do {
             Scanner scanner = new Scanner(System.in);
-            groceries.displayGroceries();
-            System.out.print("Which one do you want to buy?: ");
-            setChoice(scanner.nextInt());
-            System.out.print("How many would you like to buy: ");
-            setAmount(scanner.nextInt());
+            Groceries.displayGroceries(groceries);
+
+            while (true) {
+                System.out.print("Which one do you want to buy?: ");
+                if (scanner.hasNextInt()) {
+                    setChoice(scanner.nextInt());
+                    if (getChoice() <= groceries.size() && getChoice() > 0) {
+                        break; // Valid input, exit the loop
+                    } else {
+                        System.out.println("Invalid input!");
+                    }
+                } else {
+                    System.out.println("Invalid input!");
+                    scanner.next(); // Consume invalid input to avoid an infinite loop
+                }
+            }
+
+            while (true) {
+                System.out.print("How many would you like to buy: ");
+                if (scanner.hasNextInt()) {
+                    setAmount(scanner.nextInt());
+                    if (getAmount() >= 0) {
+                        break; // Valid input, exit the loop
+                    } else {
+                        System.out.println("Invalid input!");
+                    }
+                } else {
+                    System.out.println("Invalid input!");
+                    scanner.next(); // Consume invalid input to avoid an infinite loop
+                }
+            }
 
             if (getAmount() > 0) {
 
@@ -118,13 +150,13 @@ public class Order {
                     if (groceryIndex.get(i).equals(choice - 1)) {
                         updateGroceryAmount(i, getAmount());
                         updateSubTotal(i, getAmount());
-                        addTotal(groceries.getGroceryPrice(getChoice() - 1), getAmount());
+                        addTotal(groceries.get(getChoice() - 1).getGroceryPrice(), getAmount());
                         updated = true;
                         break;
                     }
                 }
                 if (!updated) {
-                    addTotal(groceries.getGroceryPrice(getChoice() - 1), getAmount());
+                    addTotal(groceries.get(getChoice() - 1).getGroceryPrice(), getAmount());
                     storePurchases((getChoice() - 1), getAmount());
                 }
             }
@@ -151,16 +183,4 @@ public class Order {
         arrayListIndexIncrement();
     }
 
-    public double calculateSubTotal(int index, int amount) {
-        ArrayList<Double> price = groceries.getPrice();
-        return (price.get(index) * amount);
-    }
-
-    public void testStore(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount) {
-        for (int i = 0; i < groceryIndex.size(); i++) {
-            System.out.print("\nIndex: " + groceryIndex.get(i) + "    ");
-            System.out.print("\nAmount: " + groceryAmount.get(i) + "\n");
-        }
-
-    }
 }

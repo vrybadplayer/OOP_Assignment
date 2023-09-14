@@ -6,33 +6,32 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-public interface GroceriesManager {
+public interface StaffManager {
 
-    public static ArrayList<Groceries> loadGroceriesFile(String fileName) {
-        
-        String groceryName;
-        double price;
+    public static ArrayList<Staff> loadStaffFiles(String fileName) {
 
-        ArrayList<Groceries> groceries = new ArrayList<>();
+        String staffName;
+        String password;
+
+        ArrayList<Staff> staffs = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
                 if (tokens.length >= 2) {
-                    groceryName = tokens[0];
-                    price = Double.parseDouble(tokens[1]);
+                    staffName = tokens[0];
+                    password = tokens[1];
 
-                    Groceries grocery = new Groceries(groceryName, price);
-                    groceries.add(grocery);
+                    Staff staff = new Staff(staffName, password);
+                    staffs.add(staff);
                 }
             }
         } catch (IOException e) {
             System.err.println("Error reading from file: " + e.getMessage());
         }
-        return groceries;
+        return staffs;
     }
 
     public static void saveGroceriesToFile(ArrayList<Groceries> groceries, String filename) {
@@ -49,9 +48,4 @@ public interface GroceriesManager {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
-
-    public static void sortGroceries() {
-
-    }
-    
 }

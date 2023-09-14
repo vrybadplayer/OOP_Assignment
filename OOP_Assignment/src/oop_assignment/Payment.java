@@ -6,17 +6,18 @@ import java.util.Scanner;
 public class Payment extends Order {
 
     private String proceed = "";
-    private double grandTotal = 0;
-    private boolean insufficientBalance = false;
+    private static double grandTotal = 0;
+    private static boolean insufficientBalance = false;
+    private final double deliveryFee = 4.90;
 
     public Payment() {
         super();
     }
 
-    public boolean isInsufficientBalance() {
+    public static boolean isInsufficientBalance() {
         return insufficientBalance;
     }
-    
+
     public double calculateTax() {
         return getTotal() * tax;
     }
@@ -36,22 +37,27 @@ public class Payment extends Order {
     public void displayCash() {
         calculateGrandTotal();
         setGrandTotal(grandTotal);
-        System.out.printf("\nTotal is: RM %.2f\n", getTotal());
-        System.out.printf("Tax is: RM %.2f\n", calculateTax());
-        System.out.printf("Grand total is: RM %.2f\n", getGrandTotal());
+        System.out.printf("\n%-14s: RM %.2f\n", "Total is", getTotal());
+        System.out.printf("%-14s: RM %.2f\n", "Tax is", calculateTax());
+        if (Driver.isMember()) {
+            System.out.printf("%-14s: RM %.2f\n", "Grand total is", getGrandTotal());
+        } else {
+            System.out.printf("%-14s: RM 4.90\n", "Delivery Fee");
+            System.out.printf("%-14s: RM %.2f\n", "Grand total is", getGrandTotal() + deliveryFee);
+        }
     }
 
-    public void displayOrders(Groceries groceries, Order order) {
+    public void displayOrders(ArrayList<Groceries> groceries, Order order) {
         System.out.println("\n[-----------------+-----------+---------------]");
         System.out.printf("| %-15s | %-9s | %-9s |\n", "Items", "Amount", "Sub Total(RM)");
         System.out.println("|-----------------+-----------+---------------|");
-        orderListing(getGroceryIndex(), getGroceryAmount(), groceries.getGroceries(), getSubTotal());
+        orderListing(getGroceryIndex(), getGroceryAmount(), groceries, getSubTotal());
     }
 
-    public void orderListing(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, ArrayList<String> groceries, ArrayList<Double> subTotal) {
+    public void orderListing(ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, ArrayList<Groceries> groceries, ArrayList<Double> subTotal) {
         for (int i = 0; i < groceryIndex.size(); ++i) {
             // Items, Amount, Subtotal
-            System.out.printf("| %-15s | %-9d | %13.2f |\n", groceries.get(groceryIndex.get(i)), groceryAmount.get(i), subTotal.get(i));
+            System.out.printf("| %-15s | %-9d | %13.2f |\n", groceries.get(groceryIndex.get(i)).getGroceryName(), groceryAmount.get(i), subTotal.get(i));
         }
         System.out.println("[-----------------+-----------+---------------]");
     }
@@ -76,7 +82,7 @@ public class Payment extends Order {
     }
 
     public double pay(double balance) {
-        if (getTotal() > balance) {
+        if (getGrandTotal() > balance) {
             System.out.printf("\nInsufficient balance! \nYou only have RM%.2f, you need RM%.2f more.\n", balance, getGrandTotal() - balance);
             insufficientBalance = true;
             return balance;
@@ -85,9 +91,4 @@ public class Payment extends Order {
             return balance - getGrandTotal();
         }
     }
-
-    public int calculateLoyaltyPoints() {
-        return (int) Math.round(getTotal() * 0.05);
-    }
-
 }

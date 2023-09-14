@@ -89,31 +89,41 @@ public class Customer implements CustomerManager {
         this.balance = balance;
     }
 
-    public void topUp() {
-        ArrayList<Customer> customers = CustomerManager.loadCustomersFromFile("membership.txt");
+    public void topUp(ArrayList<Customer> customers) {
         Scanner scanner = new Scanner(System.in);
         boolean validCardNumber = false;
+        double inputBalance = 0;
 
         while (!validCardNumber) {
-            System.out.println("Enter Your Credit Card Number (Format: XXXX-XXXX-XXXX-XXXX):");
+            System.out.print("Enter Your Credit Card Number (Format: XXXX-XXXX-XXXX-XXXX): ");
             String enteredCardNumber = scanner.next();
 
             if (isValidCardNumber(enteredCardNumber)) {
-                System.out.println("Enter Your Credit Card Password(Format: One Big Letter, One Special Symbol, and 12 letters only):");
+                System.out.print("Enter Your Credit Card Password(Format: One Big Letter, One Special Symbol, and 12 letters only): ");
                 String cardPassword = scanner.next();
                 while (cardPassword.matches("^(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{1,13}$") == false) {
-                    System.out.println("Invalid card number password format. Please use One Big Letter, One Special Symbol, and 12 letters only format.");
-                    System.out.print("Please enter a strong password:");
+                    System.out.print("Invalid card number password format. Please use One Big Letter, One Special Symbol, and 12 letters only format.");
+                    System.out.print("Please enter a strong password: ");
                     cardPassword = scanner.next();
                 }
-                System.out.println("Please enter the balance that you want to top up:");
-                balance = scanner.nextDouble();
-                for (Customer customer : customers) {
-                    if (customer.getName().equals(login.getEnteredUsername())) {
-                        customer.setBalance(customer.getBalance() + balance);
-                        break;
+
+                while (true) {
+                    System.out.print("Please enter the balance that you want to top up: ");
+                    if (scanner.hasNextDouble()) {
+                        inputBalance = scanner.nextDouble();
+                        if (inputBalance>= 0) {
+                            break; // Valid input, exit the loop
+                        } else {
+                            System.out.println("Invalid input. Please only enter positive numbers!");
+                        }
+                    } else {
+                        System.out.println("Invalid input. Please only enter positive numbers!");
+                        scanner.next(); // Consume invalid input to avoid an infinite loop
                     }
                 }
+
+                customers.get(Driver.getCustomerIndex()).setBalance(getBalance() + inputBalance);
+
                 CustomerManager.saveCustomersToFile(customers, "membership.txt");
                 validCardNumber = true;
                 System.out.println("Balance updated successfully!");
