@@ -7,40 +7,40 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public interface StaffManager {
+public interface SalesManager {
 
-    public static ArrayList<Staff> loadStaffFiles(String fileName) {
+    public static ArrayList<Sales> loadSales(String fileName) {
 
-        String staffName;
-        String password;
+        String groceryName;
+        int salesAmount;
 
-        ArrayList<Staff> staffs = new ArrayList<>();
+        ArrayList<Sales> sales = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
                 if (tokens.length >= 2) {
-                    staffName = tokens[0];
-                    password = tokens[1];
+                    groceryName = tokens[0];
+                    salesAmount = Integer.parseInt(tokens[1]);
 
-                    Staff staff = new Staff(staffName, password);
-                    staffs.add(staff);
+                    Sales sale = new Sales(groceryName, salesAmount);
+                    sales.add(sale);
                 }
             }
         } catch (IOException e) {
             System.err.println("Error reading from file: " + e.getMessage());
         }
-        return staffs;
+        return sales;
     }
 
-    public static void saveStaffToFile(ArrayList<Staff> staff, String filename) {
+    public static void saveSales(ArrayList<Sales> sales, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Staff staffs : staff) {
+            for (Sales sale : sales) {
                 String line = String.format(
-                        "%s|%s%n",
-                        staffs.getStaffName(),
-                        staffs.getStaffPassword()
+                        "%s|%d%n",
+                        sale.getGroceryName(),
+                        sale.getSalesAmount()
                 );
                 writer.write(line);
             }
