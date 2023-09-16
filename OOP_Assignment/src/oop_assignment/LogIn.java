@@ -9,7 +9,7 @@ public class LogIn implements CustomerManager {
     String enteredUsername;
     String enteredPassword;
 
-    public int membership(ArrayList<Customer> customer) {
+    public int membership(ArrayList<Customer> customer) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         boolean loginSuccessful = false;
 
@@ -34,7 +34,6 @@ public class LogIn implements CustomerManager {
             }
         } while (!loginSuccessful);
         return getCustomerIndex(enteredUsername, enteredPassword);
-
     }
 
     private boolean isExisting(String name, String password) {

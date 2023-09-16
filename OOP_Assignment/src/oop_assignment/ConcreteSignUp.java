@@ -20,7 +20,7 @@ public class ConcreteSignUp extends SignUp {
     String mail;
 
     @Override
-    public void Signup() {
+    public void Signup() throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("""
                              _______ _____            _____   _____ _______       _____     _____ _____   ____   _____ ______ _____  _____ ______  _____ 

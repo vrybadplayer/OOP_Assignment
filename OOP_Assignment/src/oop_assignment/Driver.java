@@ -29,8 +29,8 @@ public class Driver {
     }
 
     public static void main(String[] args) throws WriterException, Exception {
-        ArrayList<Customer> customer = CustomerManager.loadCustomersFromFile("membership.txt");
-        ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
+        ArrayList<Customer> customer;
+        ArrayList<Groceries> groceries;
         ArrayList<Sales> sales;
         Scanner scanner = new Scanner(System.in);
         Payment payment;
@@ -42,6 +42,7 @@ public class Driver {
         do {
 
             //temp
+            customer = CustomerManager.loadCustomersFromFile("membership.txt");
             customer.get(0).setBalance(500);
 
             displayOptions(customer);
@@ -50,6 +51,7 @@ public class Driver {
                 //Display Menus
                 choice = displayMainMenu(customer);
                 boolean receiptDecision = false;
+                groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
                 sales = SalesManager.loadSales("sales.txt");
 
                 switch (choice) {
@@ -149,7 +151,7 @@ public class Driver {
         scanner.nextLine();
     }
 
-    public static void displayOptions(ArrayList<Customer> customer) {
+    public static void displayOptions(ArrayList<Customer> customer) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         System.out.println("""
@@ -183,9 +185,11 @@ public class Driver {
 
             switch (choice) {
                 case 1 -> {
-                    //Implement Staff
-                    System.out.println("Implement Staff");
-                    System.exit(0);
+                    //Implement Staff       
+                    if (StaffManager.staffLogin()) {
+                        Staff staff = new Staff();
+                        staff.displayStaffMenu();
+                    }
                 }
                 case 2 ->
                     displayMainPage(customer);
@@ -200,7 +204,7 @@ public class Driver {
         } while (choice < 1 || choice > 3);
     }
 
-    public static void displayMainPage(ArrayList<Customer> customer) {
+    public static void displayMainPage(ArrayList<Customer> customer) throws InterruptedException {
         SignUp signUp = new ConcreteSignUp();
         LogIn logIn = new LogIn();
         int selection_member;
@@ -254,7 +258,7 @@ public class Driver {
         } while (selection_member < 1 || selection_member > 4);
     }
 
-    public static int displayMainMenu(ArrayList<Customer> customer) {
+    public static int displayMainMenu(ArrayList<Customer> customer) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         int choice;
 

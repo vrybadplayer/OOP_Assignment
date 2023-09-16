@@ -6,8 +6,25 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Set;
 
 public interface StaffManager {
+
+    public static void saveStaffToFile(ArrayList<Staff> staff, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+            for (Staff staffs : staff) {
+                String line = String.format(
+                        "%s|%s%n",
+                        staffs.getStaffName(),
+                        staffs.getStaffPassword()
+                );
+                writer.write(line);
+            }
+        } catch (IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
 
     public static ArrayList<Staff> loadStaffFiles(String fileName) {
 
@@ -24,8 +41,8 @@ public interface StaffManager {
                     staffName = tokens[0];
                     password = tokens[1];
 
-                    Staff staff = new Staff(staffName, password);
-                    staffs.add(staff);
+                    Staff tempStaff = new Staff(staffName, password);
+                    staffs.add(tempStaff);
                 }
             }
         } catch (IOException e) {
@@ -34,18 +51,41 @@ public interface StaffManager {
         return staffs;
     }
 
-    public static void saveStaffToFile(ArrayList<Staff> staff, String filename) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Staff staffs : staff) {
-                String line = String.format(
-                        "%s|%s%n",
-                        staffs.getStaffName(),
-                        staffs.getStaffPassword()
-                );
-                writer.write(line);
+    public static boolean staffLogin() throws InterruptedException {
+        Scanner scanner = new Scanner(System.in);
+        boolean loginSuccessful = false;
+        String enteredUsername;
+        String enteredPassword;
+
+        do {
+            System.out.print("Enter your username (Enter X to Exit): ");
+            enteredUsername = scanner.nextLine();
+
+            if (enteredUsername.equals("X")) {
+                break;
             }
-        } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
+
+            System.out.print("Enter your password: ");
+            enteredPassword = scanner.nextLine();
+
+            if (isExisting(enteredUsername, enteredPassword)) {
+                System.out.println("\nLogin successful!");
+                Thread.sleep(1000);
+                loginSuccessful = true;
+            } else {
+                System.out.println("Login failed. Incorrect username or password. Please try again.");
+            }
+        } while (!loginSuccessful);
+        return loginSuccessful;
+    }
+
+    private static boolean isExisting(String username, String password) {
+        ArrayList<Staff> staffs = loadStaffFiles("staff.txt");
+        for (int i = 0; i < staffs.size(); i++) {
+            if (staffs.get(i).getStaffName().equals(username) && staffs.get(i).getStaffPassword().equals(password)) {
+                return true;
+            }
         }
+        return false;
     }
 }
