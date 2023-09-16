@@ -1,0 +1,6 @@
+Milk|0
+Bread|0
+Eggs|0
+Cheese|0
+Water|0
+Rice|0

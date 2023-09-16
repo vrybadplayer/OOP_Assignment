@@ -11,12 +11,14 @@ public class Order {
     static final double tax = 0.06;
     private int arrayListIndex = 0;
     private String decision = "";
-    private ArrayList<Integer> groceryIndex = new ArrayList<Integer>();
-    private ArrayList<Integer> groceryAmount = new ArrayList<Integer>();
+    private static ArrayList<Integer> groceryIndex = new ArrayList<Integer>();
+    private static ArrayList<Integer> groceryAmount = new ArrayList<Integer>();
     private ArrayList<Double> subTotal = new ArrayList<Double>();
 
     public Order() {
-
+        this.total = 0;
+        this.groceryIndex = new ArrayList<Integer>();
+        this.groceryAmount = new ArrayList<Integer>();
     }
 
     public ArrayList<Double> getSubTotal() {
@@ -43,11 +45,11 @@ public class Order {
         this.subTotal.set(arrayListIndex, price.get(groceryIndex.get(arrayListIndex)) * groceryAmount.get(arrayListIndex));
     }
 
-    public ArrayList<Integer> getGroceryIndex() {
+    public static ArrayList<Integer> getGroceryIndex() {
         return groceryIndex;
     }
 
-    public ArrayList<Integer> getGroceryAmount() {
+    public static ArrayList<Integer> getGroceryAmount() {
         return groceryAmount;
     }
 
@@ -106,7 +108,7 @@ public class Order {
     }
 
     public void getOrder(Order order, ArrayList<Groceries> groceries) {
-
+        ArrayList<Sales> sales = SalesManager.loadSales("sales.txt");
         boolean updated = false;
         boolean isNumber = false;
 
@@ -173,7 +175,6 @@ public class Order {
             } while (!decision.equals("y") && !decision.equals("n"));
 
         } while (decision.equals("y"));
-
     }
 
     public void storePurchases(int indexNo, int amount) {

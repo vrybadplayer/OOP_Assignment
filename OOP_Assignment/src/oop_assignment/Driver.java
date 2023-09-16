@@ -23,7 +23,7 @@ public class Driver {
     public static void setMember(boolean member) {
         Driver.member = member;
     }
-    
+
     public static boolean isMember() {
         return member;
     }
@@ -31,33 +31,32 @@ public class Driver {
     public static void main(String[] args) throws WriterException, Exception {
         ArrayList<Customer> customer = CustomerManager.loadCustomersFromFile("membership.txt");
         ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
+        ArrayList<Sales> sales;
         Scanner scanner = new Scanner(System.in);
         Payment payment;
         Order order;
         Receipt receipt = new Receipt();
-        QRCode qr;
+        QRCode qr = new QRCode();
 
         //Testing
         do {
 
-            //Create objects
-            payment = new Payment();
-            order = new Order();
-            qr = new QRCode();
-
             //temp
             customer.get(0).setBalance(500);
-            
+
             displayOptions(customer);
 
             do {
                 //Display Menus
                 choice = displayMainMenu(customer);
                 boolean receiptDecision = false;
+                sales = SalesManager.loadSales("sales.txt");
 
                 switch (choice) {
                     case 1:
                         //User Inputs
+                        payment = new Payment();
+                        order = new Order();
                         payment.getOrder(order, groceries);
 
                         //Display Output
@@ -70,6 +69,7 @@ public class Driver {
                             qr.setText("TrapStar Groceries Payment Form: https://forms.gle/gMsH1YaZiGL8PyX69");
                             qr.generateQR();
                             qr.displayQR();
+                            SalesManager.updateSales(sales);
                             receiptDecision = receipt.receiptDecision();
                             if (!payment.isInsufficientBalance()) {
                                 if (receiptDecision) {
@@ -100,6 +100,7 @@ public class Driver {
                                     }
                                 }
                             } else {
+                                SalesManager.updateSales(sales);
                                 receiptDecision = receipt.receiptDecision();
                                 if (receiptDecision) {
                                     receipt.printMemberReceipt(payment, groceries, order, customer);
