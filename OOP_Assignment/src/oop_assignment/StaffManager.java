@@ -34,13 +34,13 @@ public interface StaffManager {
         return staffs;
     }
 
-    public static void saveGroceriesToFile(ArrayList<Groceries> groceries, String filename) {
+    public static void saveStaffToFile(ArrayList<Staff> staff, String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Groceries grocery : groceries) {
+            for (Staff staffs : staff) {
                 String line = String.format(
-                        "%s|%.2f%n",
-                        grocery.getGroceryName(),
-                        grocery.getGroceryPrice()
+                        "%s|%s%n",
+                        staffs.getStaffName(),
+                        staffs.getStaffPassword()
                 );
                 writer.write(line);
             }

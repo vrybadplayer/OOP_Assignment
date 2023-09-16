@@ -18,21 +18,15 @@ public class Staff implements StaffManager {
         this.staffName = staffName;
         this.password = password;
     }
-
-    public void editCustomer() {
-
+    
+    public String getStaffName() {
+        return staffName;
+    }
+    
+    public String getStaffPassword() {
+        return password;
     }
 
-    public void addStock() {
-
-    }
-
-    public void addGroceries(String item, double price) {
-
-    }
-
-    public void generateReport() {
-
-    }
+    
 
 }
