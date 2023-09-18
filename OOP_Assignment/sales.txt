@@ -1,6 +1,10 @@
-Milk|0
-Bread|0
+Milk|5
+Bread|16
 Eggs|0
-Cheese|0
-Water|0
-Rice|0
+Cheese|2
+Water|5
+Rice|20
+Chicken|12
+Beef|5
+Apples|6
+Bananas|8

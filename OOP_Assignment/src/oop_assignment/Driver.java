@@ -31,7 +31,7 @@ public class Driver {
     }
 
     public static void main(String[] args) throws WriterException, Exception {
-        ArrayList<Customer> customer;
+        ArrayList<Customer> customer = CustomerManager.loadCustomersFromFile("membership.txt");
         ArrayList<Groceries> groceries;
         ArrayList<Sales> sales;
         Scanner scanner = new Scanner(System.in);
@@ -44,7 +44,6 @@ public class Driver {
         do {
 
             //temp
-            customer = CustomerManager.loadCustomersFromFile("membership.txt");
             customer.get(0).setBalance(500);
 
             displayOptions(customer);
@@ -53,6 +52,7 @@ public class Driver {
                 //Display Menus
                 choice = displayMainMenu(customer);
                 boolean receiptDecision = false;
+                customer = CustomerManager.loadCustomersFromFile("membership.txt");
                 groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
                 sales = SalesManager.loadSales("sales.txt");
 
@@ -83,7 +83,7 @@ public class Driver {
                             }
                         } else if (member && proceed) {
                             customer.get(customerIndex).setBalance(payment.pay(customer.get(customerIndex).getBalance()));
-
+                            CustomerManager.saveCustomersToFile(customer, "membership.txt");
                             if (Payment.isInsufficientBalance()) {
                                 while (true) {
                                     System.out.print("Do you want to top-up (y/n): ");
@@ -129,7 +129,9 @@ public class Driver {
                     case 3:
                         //Top-up
                         if (member) {
+                            customer = CustomerManager.loadCustomersFromFile("membership.txt");
                             customer.get(customerIndex).topUp(customer);
+                            CustomerManager.saveCustomersToFile(customer, "membership.txt");
                         } else if (!member) {
                             System.out.println("\nNon-members cannot top-up!\n");
                             systemPause();
@@ -191,7 +193,7 @@ public class Driver {
                     if (StaffManager.staffLogin()) {
                         Staff staff = new Staff();
                         staff.displayStaffMenu();
-                    }else {
+                    } else {
                         String[] args = {""};
                         main(args);
                     }

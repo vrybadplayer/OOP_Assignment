@@ -1,4 +1,3 @@
-Milk|7.00
 Bread|3.50
 Eggs|6.60
 Cheese|10.00
@@ -8,3 +7,4 @@ Chicken|9.00
 Beef|16.50
 Apples|4.70
 Bananas|2.45
+Milk|7.00

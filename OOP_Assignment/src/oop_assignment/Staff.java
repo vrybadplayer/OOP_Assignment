@@ -45,19 +45,20 @@ public class Staff implements StaffManager {
         System.out.printf("|%d) | %-26s |\n", 2, "Add/Remove Groceries");
         System.out.printf("|%d) | %-26s |\n", 3, "Add Stock");
         System.out.printf("|%d) | %-26s |\n", 4, "Generate Report");
-        System.out.printf("|%d) | %-26s |\n", 5, "Logout");
+        System.out.printf("|%d) | %-26s |\n", 5, "Sort Groceries");
+        System.out.printf("|%d) | %-26s |\n", 6, "Logout");
         System.out.println("[---+----------------------------]");
         while (true) {
             System.out.print("Input: ");
             if (scanner.hasNextInt()) {
                 choice = scanner.nextInt();
-                if (choice >= 1 && choice <= 5) {
+                if (choice >= 1 && choice <= 6) {
                     break; // Valid input, exit the loop
                 } else {
-                    System.out.println("Invalid input. Please enter 1 to 5.");
+                    System.out.println("Invalid input. Please enter 1 to 6.");
                 }
             } else {
-                System.out.println("Invalid input. Please enter 1 to 5.");
+                System.out.println("Invalid input. Please enter 1 to 6.");
                 scanner.next(); // Consume invalid input to avoid an infinite loop
             }
         }
@@ -72,14 +73,21 @@ public class Staff implements StaffManager {
                 addOrRemove();
                 break;
             case 3:
-            //Add Stock
+                //Add Stock
+                System.out.println("not implemented yet");
+                System.exit(0);
             case 4:
                 //Generate Report
                 generateReport();
             case 5:
+                //Sort Groceri1es
+                System.out.println("not implemented yet");
+                System.exit(0);
+            case 6:
                 //Logout
                 System.out.println("\nLogged out!\n");
-                Driver.displayOptions(CustomerManager.loadCustomersFromFile("membership.txt"));
+                String[] args = {""};
+                Driver.main(args);
                 break;
             default:
                 System.out.println("Error!");
@@ -140,8 +148,15 @@ public class Staff implements StaffManager {
         do {
             System.out.println("\n\nAdding new groceries");
             System.out.println("--------------------");
-            System.out.print("Enter grocery name (Enter X to exit): ");
-            groceryName = scanner.nextLine();
+            do {
+                System.out.print("Enter grocery name (Enter X to exit): ");
+                groceryName = scanner.nextLine();
+                if (groceryName.isEmpty() || groceryName == null) {
+                    System.out.println("Grocery name cannot be empty!");
+                }else if(isExistingGrocery(groceryName)){
+                    System.out.println("Grocery name already exists!");
+                }
+            } while (groceryName.isEmpty() || groceryName == null || isExistingGrocery(groceryName));
 
             if (groceryName.equals("X")) {
                 addOrRemove();
@@ -197,6 +212,7 @@ public class Staff implements StaffManager {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         String decision;
+        String userInput;
         boolean repeat = false;
 
         do {
@@ -208,9 +224,14 @@ public class Staff implements StaffManager {
 
             while (true) {
                 System.out.print("Input number (Enter X to exit): ");
+                userInput = scanner.next();
 
-                if (scanner.hasNextInt()) {
-                    choice = scanner.nextInt();
+                if (userInput.equalsIgnoreCase("X")) {
+                    break; // Exit the loop if "X" is entered
+                }
+
+                if (isInteger(userInput)) {
+                    choice = Integer.parseInt(userInput);
 
                     if (choice >= 1 && choice <= groceries.size()) {
                         break; // Valid input, exit the loop
@@ -219,10 +240,12 @@ public class Staff implements StaffManager {
                     }
                 } else {
                     System.out.println("Invalid input!");
-                    scanner.next(); // Consume invalid input to avoid an infinite loop
                 }
             }
 
+            if (userInput.equalsIgnoreCase("X")) {
+                break; // Exit the loop if "X" is entered
+            }
             groceries.remove(choice - 1);
             GroceriesManager.saveGroceriesToFile(groceries, "groceries.txt");
 
@@ -295,13 +318,16 @@ public class Staff implements StaffManager {
             switch (selection) {
                 case 1:
                     boolean validName = true;
+                    String newName;
                     while (validName) {
                         customerName = askAgain();
                         if (customerName.equals("X")) {
                             break;
                         }
-                        System.out.print("Enter new customer name (Enter X to exit): ");
-                        String newName = input.nextLine();
+                        do {
+                            System.out.print("Enter new customer name (Enter X to exit): ");
+                            newName = input.nextLine();
+                        } while (newName.isEmpty() || newName == null);
 
                         if (newName.equals("X")) {
                             break;
@@ -316,7 +342,7 @@ public class Staff implements StaffManager {
                                 System.out.print("Username cannot be blank: ");
                                 newName = input.nextLine();
                             }
-                        } while (isExistingName(newName) || newName == null);
+                        } while (isExistingName(newName) || newName == null || newName.isEmpty());
 
                         for (int i = 0; i < customer.size(); ++i) {
                             if (customerName.equals(customer.get(i).getName())) {
@@ -367,6 +393,7 @@ public class Staff implements StaffManager {
                 case 3:
                     boolean validEmail = true;
                     String newEmail = "";
+
                     while (validEmail) {
                         customerName = askAgain();
                         if (customerName.equals("X")) {
@@ -479,7 +506,7 @@ public class Staff implements StaffManager {
                             }
                         }
 
-                        if (!validAddress && !newAddress.equals("X")) {
+                        if (validAddress && !newAddress.equals("X")) {
                             System.out.println("The customer you wanted to edit could not be found.\n");
                         }
                     } while (validAddress);
@@ -684,6 +711,25 @@ public class Staff implements StaffManager {
 
     private static boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.matches("\\d{3}-\\d{7}");
+    }
+
+    private static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private static boolean isExistingGrocery(String grocery) {
+        ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
+        for (int i = 0; i < groceries.size(); ++i) {
+            if (groceries.get(i).getGroceryName().equals(grocery)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void addStock() throws InterruptedException {
