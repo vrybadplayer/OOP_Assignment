@@ -22,6 +22,9 @@ public class ConcreteSignUp extends SignUp {
     @Override
     public void Signup() throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
+        boolean validEmail = false;
+        boolean validPhoneNumber = false;
+        boolean validName = false;
         System.out.println("""
                              _______ _____            _____   _____ _______       _____     _____ _____   ____   _____ ______ _____  _____ ______  _____ 
                             |__   __|  __ \\     /\\   |  __ \\ / ____|__   __|/\\   |  __ \\   / ____|  __ \\ / __ \\ / ____|  ____|  __ \\|_   _|  ____|/ ____|
@@ -43,21 +46,18 @@ public class ConcreteSignUp extends SignUp {
                            Experience the joy of shopping with rewards at your fingertips!
                            """);
 
-        boolean validEmail = false;
-        boolean validPhoneNumber = false;
-        System.out.print("Please Enter Your Username:");
-        name = scanner.nextLine();
-        do {
-            if (isExistingName(name) == true) {
+        while (!validName) {
+            System.out.print("Please Enter Your Username:");
+            name = scanner.nextLine();
+            if (isExistingName(name)) {
                 System.out.println("This name is already registered. Please enter a different name.");
-                System.out.print("Please enter a different name:");
-                name = scanner.nextLine();
-            } else if (name == null || name.isEmpty()) {
-                System.out.print("Username cannot be blank: ");
-                name = scanner.nextLine();
+            } else if (name.isEmpty() || name == null) {
+                System.out.println("Username cannot be blank!");
+                continue;
+            } else {
+                validName = true;
             }
-        } while (isExistingName(name) || name == null);
-        
+        }
         System.out.print("Please Enter Your Password with an One Big Letter,One Special Symbol and 12 letter only:");
         passWord = scanner.nextLine();
         while (passWord.matches("^(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{1,13}$") == false) {
@@ -65,46 +65,46 @@ public class ConcreteSignUp extends SignUp {
             System.out.print("Please enter a strong password:");
             passWord = scanner.nextLine();
         }
-        
-        do {
-            System.out.print("Please Enter Email Address:");
+        while (!validEmail) {
+            System.out.print("Please Enter Your Email:");
             email = scanner.nextLine();
-            if (isValidEmail(email)) {
-                if (isExistingEmail(email)) {
-                    System.out.println("This name Email already existed.Please use another name.");
-                    System.out.print("Please enter new name again:");
-                    email = scanner.nextLine();
-                }
+            if (isExistingEmail(email)) {
+                System.out.println("This Email is already registered. Please enter a different Email.");
+            } else if (!isValidEmail(email)) {
+                System.out.println("Invalid email format. Please enter a valid email address.");
             } else {
-                System.out.print("Please use the correct format wtih(XXX@gmail.com):");
-                email = scanner.nextLine();
+                validEmail = true;
             }
-        } while (validEmail == true);
-        
-        do {
-            System.out.print("Please Enter Phone Number:");
+        }
+        while (!validPhoneNumber) {
+            System.out.print("Please Enter Your Phone Number:");
             phoneNumber = scanner.nextLine();
-            if (isValidPhoneNumber(phoneNumber)) {
-                if (isExistingPhoneNumber(phoneNumber)) {
-                    System.out.println("This Phone Number already existed.Please Try Another Phone Number.");
-                    System.out.print("Enter Phone Number:");
-                    phoneNumber = scanner.nextLine();
-                }
+            if (isExistingPhoneNumber(phoneNumber)) {
+                System.out.println("This Phone Number is already registered. Please enter a different Phone Number.");
+            } else if (!isValidPhoneNumber(phoneNumber)) {
+                System.out.println("Invalid phone number format. Please enter a valid phone number (e.g., 123-4567890).");
             } else {
-                System.out.println("Please enter a right format with XXX-XXXXXXX");
-                System.out.print("Enter Phone Number:");
-                phoneNumber = scanner.nextLine();
+                validPhoneNumber = true;
             }
-        } while (validPhoneNumber == true);
-
+        }
         do {
             System.out.print("Please Enter Mailing Address:");
             mail = scanner.nextLine();
-        } while (mail == null || mail.isEmpty());
-
+            if (mail.isEmpty() || mail == null) {
+                System.out.println("Mailing Address cannot be empty!");
+                continue;
+            } else {
+                break;
+            }
+        } while (true);
+        
         System.out.println("Your point will start with 1000!!!");
-        int loyaltyPoints = 1000;
-        saveToFile(name, passWord, email, phoneNumber, mail, loyaltyPoints);
+        int point = 1000;
+        System.out.println("Your starting balance is RM0");
+        double balance = 0;
+        ArrayList<Customer> customers = CustomerManager.loadCustomersFromFile("membership.txt");
+        customers.add(new Customer(name, passWord, email, phoneNumber, mail, point, balance));
+        CustomerManager.saveCustomersToFile(customers, "membership.txt");
         System.out.println("Thank you for joining our Trapstar Groceries!");
         customer = CustomerManager.loadCustomersFromFile("membership.txt");
         Driver.systemPause();
@@ -128,17 +128,12 @@ public class ConcreteSignUp extends SignUp {
     }
 
     private static boolean isExistingEmail(String email) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("membership.txt"))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-                String existingEmail = tokens[2];
-                if (existingEmail.equals(email)) {
-                    return true;
-                }
+        ArrayList<Customer> customers = CustomerManager.loadCustomersFromFile("membership.txt");
+
+        for (Customer customer : customers) {
+            if (customer.getEmail().equals(email)) {
+                return true;
             }
-        } catch (IOException e) {
-            System.out.println("File Error!");
         }
         return false;
     }
