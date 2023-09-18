@@ -9,7 +9,7 @@ public class LogIn implements CustomerManager {
     String enteredUsername;
     String enteredPassword;
 
-    public int membership(ArrayList<Customer> customer) throws InterruptedException {
+    public int membership(ArrayList<Customer> customer) throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
         boolean loginSuccessful = false;
 

@@ -20,7 +20,7 @@ public class ConcreteSignUp extends SignUp {
     String mail;
 
     @Override
-    public void Signup() throws InterruptedException {
+    public void Signup() throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.println("""
                              _______ _____            _____   _____ _______       _____     _____ _____   ____   _____ ______ _____  _____ ______  _____ 
@@ -57,6 +57,7 @@ public class ConcreteSignUp extends SignUp {
                 name = scanner.nextLine();
             }
         } while (isExistingName(name) || name == null);
+        
         System.out.print("Please Enter Your Password with an One Big Letter,One Special Symbol and 12 letter only:");
         passWord = scanner.nextLine();
         while (passWord.matches("^(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{1,13}$") == false) {
@@ -64,6 +65,7 @@ public class ConcreteSignUp extends SignUp {
             System.out.print("Please enter a strong password:");
             passWord = scanner.nextLine();
         }
+        
         do {
             System.out.print("Please Enter Email Address:");
             email = scanner.nextLine();
@@ -78,6 +80,7 @@ public class ConcreteSignUp extends SignUp {
                 email = scanner.nextLine();
             }
         } while (validEmail == true);
+        
         do {
             System.out.print("Please Enter Phone Number:");
             phoneNumber = scanner.nextLine();

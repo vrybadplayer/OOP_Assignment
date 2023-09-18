@@ -5,6 +5,7 @@ import static com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.L;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.lang.annotation.Repeatable;
 import java.util.*;
 import java.util.Scanner;
 
@@ -15,6 +16,7 @@ public class Driver {
     private static double balance = 0;
     private static int customerIndex = 0;
     private static int choice = 0;
+    private static boolean repeat = true;
 
     public static int getCustomerIndex() {
         return customerIndex;
@@ -151,7 +153,7 @@ public class Driver {
         scanner.nextLine();
     }
 
-    public static void displayOptions(ArrayList<Customer> customer) throws InterruptedException {
+    public static void displayOptions(ArrayList<Customer> customer) throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
         System.out.println("""
@@ -189,10 +191,14 @@ public class Driver {
                     if (StaffManager.staffLogin()) {
                         Staff staff = new Staff();
                         staff.displayStaffMenu();
+                    }else {
+                        String[] args = {""};
+                        main(args);
                     }
                 }
-                case 2 ->
+                case 2 -> {
                     displayMainPage(customer);
+                }
                 case 3 -> {
                     CustomerManager.saveCustomersToFile(customer, "membership.txt");
                     System.out.println("\nThank you for using Trapstar Groceries!\n\n");
@@ -204,7 +210,7 @@ public class Driver {
         } while (choice < 1 || choice > 3);
     }
 
-    public static void displayMainPage(ArrayList<Customer> customer) throws InterruptedException {
+    public static void displayMainPage(ArrayList<Customer> customer) throws InterruptedException, Exception {
         SignUp signUp = new ConcreteSignUp();
         LogIn logIn = new LogIn();
         int selection_member;
@@ -258,7 +264,7 @@ public class Driver {
         } while (selection_member < 1 || selection_member > 4);
     }
 
-    public static int displayMainMenu(ArrayList<Customer> customer) throws InterruptedException {
+    public static int displayMainMenu(ArrayList<Customer> customer) throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
         int choice;
 
