@@ -188,7 +188,7 @@ public class Staff implements StaffManager {
             while (true) {
                 System.out.print("Do you want to add more (y/n): ");
                 if (scanner.hasNext()) {
-                    decision = scanner.next();
+                    decision = scanner.nextLine();
                     if (decision.equals("y")) {
                         repeat = true;
                         break;
@@ -200,7 +200,7 @@ public class Staff implements StaffManager {
                     }
                 } else {
                     System.out.println("Invalid input!");
-                    scanner.next(); // Consume invalid input to avoid an infinite loop
+                    scanner.nextLine(); // Consume invalid input to avoid an infinite loop
                 }
             }
 

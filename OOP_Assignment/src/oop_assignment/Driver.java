@@ -31,7 +31,7 @@ public class Driver {
     }
 
     public static void main(String[] args) throws WriterException, Exception {
-        
+
         ArrayList<Customer> customer = CustomerManager.loadCustomersFromFile("membership.txt");
         ArrayList<Groceries> groceries;
         ArrayList<Sales> sales;
@@ -92,7 +92,7 @@ public class Driver {
                                         String topUpDecision = scanner.next();
                                         if (topUpDecision.equals("y")) {
                                             customer.get(customerIndex).topUp(customer);
-                                            displayMainMenu(customer);
+                                            proceed = false;
                                             break;
                                         } else if (topUpDecision.equals("n")) {
                                             break;
