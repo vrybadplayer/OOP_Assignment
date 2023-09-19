@@ -1,5 +1,5 @@
 $5 Discount Coupon|500|0
-Coffee Mug|550|997
+Coffee Mug|550|996
 Movie Ticket|600|1000
 1 lb Rice|650|1000
 $10 Gift Card|700|1000

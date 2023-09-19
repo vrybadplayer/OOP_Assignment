@@ -9,3 +9,4 @@ Frank|Frank789!|frank@site.com|019-7777777|changeme|1000|0.00
 Grace|Grace123!|grace@web.com|019-8888888|12345678|1000|0.00
 Henry|Henry456!|henry@service.com|019-6666666|access123|1000|0.00
 David|David123!|david@gmail.com|016-1112345|TARUMT, Perak|2000|50.00
+Trapstar666|Trapstar123!|trapstar@gmail.com|016-1234444|TARUMT Perak|450|13.61

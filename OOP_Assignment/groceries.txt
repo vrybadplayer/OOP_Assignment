@@ -1,5 +1,4 @@
 Apples|4.70|1000
-Avocado|6.90|1000
 Bananas|2.45|1000
 Beef|16.50|1000
 Bread|3.50|1000

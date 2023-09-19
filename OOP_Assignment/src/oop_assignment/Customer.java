@@ -1,7 +1,5 @@
 package oop_assignment;
 
-//Dev 2 customer
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;

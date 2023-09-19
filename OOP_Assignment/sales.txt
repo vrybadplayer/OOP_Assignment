@@ -6,5 +6,6 @@ Water|5
 Rice|20
 Chicken|12
 Beef|5
-Apples|6
+Apples|26
 Bananas|8
+Avocado|10
