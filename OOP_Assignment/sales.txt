@@ -1,6 +1,6 @@
 Milk|5
-Bread|16
-Eggs|0
+Bread|30
+Eggs|20
 Cheese|2
 Water|5
 Rice|20

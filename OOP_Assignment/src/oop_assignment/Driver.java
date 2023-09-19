@@ -1,4 +1,5 @@
 package oop_assignment;
+
 import com.google.zxing.WriterException;
 import static com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.L;
 import java.awt.AWTException;
@@ -9,7 +10,7 @@ import java.util.*;
 import java.util.Scanner;
 
 public class Driver {
-    
+
     private static boolean proceed = false;
     private static boolean member = false;
     private static double balance = 0;
@@ -30,6 +31,7 @@ public class Driver {
     }
 
     public static void main(String[] args) throws WriterException, Exception {
+        
         ArrayList<Customer> customer = CustomerManager.loadCustomersFromFile("membership.txt");
         ArrayList<Groceries> groceries;
         ArrayList<Sales> sales;
@@ -39,10 +41,8 @@ public class Driver {
         Receipt receipt = new Receipt();
         QRCode qr = new QRCode();
 
-        //Testing
         do {
-
-            //temp
+            //Testing
             customer.get(0).setBalance(500);
 
             displayOptions(customer);
@@ -57,7 +57,7 @@ public class Driver {
 
                 switch (choice) {
                     case 1:
-                        //User Inputs
+                        //Groceries
                         payment = new Payment();
                         order = new Order();
                         payment.getOrder(order, groceries);
@@ -73,6 +73,8 @@ public class Driver {
                             qr.generateQR();
                             qr.displayQR();
                             SalesManager.updateSales(sales);
+                            groceries = Stock.updateStock(groceries);
+                            GroceriesManager.saveGroceriesToFile(groceries, "groceries.txt");
                             receiptDecision = receipt.receiptDecision();
                             if (!payment.isInsufficientBalance()) {
                                 if (receiptDecision) {
@@ -104,6 +106,8 @@ public class Driver {
                                 }
                             } else {
                                 SalesManager.updateSales(sales);
+                                groceries = Stock.updateStock(groceries);
+                                GroceriesManager.saveGroceriesToFile(groceries, "groceries.txt");
                                 receiptDecision = receipt.receiptDecision();
                                 if (receiptDecision) {
                                     receipt.printMemberReceipt(payment, groceries, order, customer);
@@ -118,7 +122,7 @@ public class Driver {
                     case 2:
                         //Redemption
                         if (member) {
-                            //Redemption page (JingHong do)
+                            Redemption.redemptionMenu();
                         } else if (!member) {
                             System.out.println("\nNon-members cannot redeem anything!\n");
                             systemPause();

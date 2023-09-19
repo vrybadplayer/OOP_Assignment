@@ -135,8 +135,10 @@ public class Order {
                 System.out.print("How many would you like to buy: ");
                 if (scanner.hasNextInt()) {
                     setAmount(scanner.nextInt());
-                    if (getAmount() >= 0) {
-                        break; // Valid input, exit the loop
+                    if (getAmount() >= 0 && !Stock.isEnoughStock(getChoice() - 1, getAmount())) {
+                        System.out.println("Sorry! This item is out of stock!");
+                    } else if (getAmount() >= 0) {
+                        break;
                     } else {
                         System.out.println("Invalid input!");
                     }

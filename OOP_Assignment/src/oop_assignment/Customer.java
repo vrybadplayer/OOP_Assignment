@@ -81,6 +81,10 @@ public class Customer implements CustomerManager {
         this.loyaltyPoints = loyaltyPoints;
     }
 
+    public void reduceLoyaltyPoints(int loyaltyPoints) {
+        this.loyaltyPoints = getLoyaltyPoints() - loyaltyPoints;
+    }
+
     public double getBalance() {
         return balance;
     }
@@ -111,7 +115,7 @@ public class Customer implements CustomerManager {
                     System.out.print("Please enter the balance that you want to top up: ");
                     if (scanner.hasNextDouble()) {
                         inputBalance = scanner.nextDouble();
-                        if (inputBalance>= 0) {
+                        if (inputBalance >= 0) {
                             break; // Valid input, exit the loop
                         } else {
                             System.out.println("Invalid input. Please only enter positive numbers!");

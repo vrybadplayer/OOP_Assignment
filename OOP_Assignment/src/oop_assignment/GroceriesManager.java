@@ -11,9 +11,10 @@ import java.util.List;
 public interface GroceriesManager {
 
     public static ArrayList<Groceries> loadGroceriesFile(String fileName) {
-        
+
         String groceryName;
         double price;
+        int stock;
 
         ArrayList<Groceries> groceries = new ArrayList<>();
 
@@ -21,11 +22,11 @@ public interface GroceriesManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
-                if (tokens.length >= 2) {
+                if (tokens.length >= 3) {
                     groceryName = tokens[0];
                     price = Double.parseDouble(tokens[1]);
-
-                    Groceries grocery = new Groceries(groceryName, price);
+                    stock = Integer.parseInt(tokens[2]);
+                    Groceries grocery = new Groceries(groceryName, price, stock);
                     groceries.add(grocery);
                 }
             }
@@ -39,9 +40,10 @@ public interface GroceriesManager {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Groceries grocery : groceries) {
                 String line = String.format(
-                        "%s|%.2f%n",
+                        "%s|%.2f|%d%n",
                         grocery.getGroceryName(),
-                        grocery.getGroceryPrice()
+                        grocery.getGroceryPrice(),
+                        grocery.getStock()
                 );
                 writer.write(line);
             }
@@ -49,9 +51,4 @@ public interface GroceriesManager {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
-
-    public static void sortGroceries() {
-
-    }
-    
 }

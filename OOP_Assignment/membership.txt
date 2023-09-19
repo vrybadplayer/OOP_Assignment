@@ -1,4 +1,4 @@
-Victor|Victor123!|victor@gmail.com|019-3283858|abcd|1000|500.00
+Victor|Victor123!|victor@gmail.com|019-3283858|abcd|500|500.00
 KaiYuan|KaiYuan123!|dasdas@gmail.com|019-6551030|asdasdas|1000|100.00
 Alice|Alice123!|alice@gmail.com|019-1234567|xyzabc|1000|100.00
 Bob|Bob456!|bob@email.com|019-9876543|qwerty|1000|0.00

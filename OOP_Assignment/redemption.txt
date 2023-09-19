@@ -1,0 +1,20 @@
+$5 Discount Coupon|500|0
+Coffee Mug|550|997
+Movie Ticket|600|1000
+1 lb Rice|650|1000
+$10 Gift Card|700|1000
+Travel Umbrella|750|1000
+Reusable Shopping Bag|80|1000
+Kitchen Towel Set|850|1000
+3-Pack of Socks|900|1000
+Electric Kettle|950|1000
+2 Movie Tickets|1000|1000
+Portable Phone Holder|105|1000
+Stainless Steel Water Bottle|1500|1000
+Toaster|1150|1000
+Board Game|1200|1000
+Yoga Mat|1250|1000
+Slow Cooker|1300|1000
+Blender|1350|1000
+Weekend Camping Gear|1000|1400
+Cookbook|1500|1000

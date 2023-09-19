@@ -74,15 +74,16 @@ public class Staff implements StaffManager {
                 break;
             case 3:
                 //Add Stock
-                System.out.println("not implemented yet");
-                System.exit(0);
+                staffAddStock();
             case 4:
                 //Generate Report
                 generateReport();
             case 5:
                 //Sort Groceri1es
-                System.out.println("not implemented yet");
-                System.exit(0);
+                Groceries.sortGroceries();
+                System.out.println("\nGroceries have been sorted!\n");
+                Thread.sleep(700);
+                displayStaffMenu();
             case 6:
                 //Logout
                 System.out.println("\nLogged out!\n");
@@ -153,7 +154,7 @@ public class Staff implements StaffManager {
                 groceryName = scanner.nextLine();
                 if (groceryName.isEmpty() || groceryName == null) {
                     System.out.println("Grocery name cannot be empty!");
-                }else if(isExistingGrocery(groceryName)){
+                } else if (isExistingGrocery(groceryName)) {
                     System.out.println("Grocery name already exists!");
                 }
             } while (groceryName.isEmpty() || groceryName == null || isExistingGrocery(groceryName));
@@ -179,7 +180,7 @@ public class Staff implements StaffManager {
                     scanner.next(); // Consume invalid input to avoid an infinite loop
                 }
             }
-            Groceries grocery = new Groceries(groceryName, price);
+            Groceries grocery = new Groceries(groceryName, price, 1000);
             groceries.add(grocery);
 
             System.out.println("Grocery successfully added.");
@@ -732,10 +733,68 @@ public class Staff implements StaffManager {
         return false;
     }
 
-    public void addStock() throws InterruptedException {
-        System.out.println("To be implemented.");
-        System.exit(0);
-        //displayStaffMenu();
+    public void staffAddStock() throws InterruptedException, Exception {
+        ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        String input;
+        int stock;
+
+        System.out.println("\nAdd Stock");
+        System.out.println("-----------------");
+        System.out.println("[--------------------------+---------]");
+        System.out.println("|         Groceries        |  Stock  |");
+        System.out.println("[--------------------------+---------]");
+        for (int i = 0; i < groceries.size(); ++i) {
+            System.out.printf("| %2d) %-20s | %-7d |\n", i + 1, groceries.get(i).getGroceryName(), groceries.get(i).getStock());
+        }
+        System.out.println("[--------------------------+---------]");
+
+        System.out.println("Which item's stock do you want to replenish?");
+        while (true) {
+            System.out.print("Input (Enter X to exit): ");
+            if (scanner.hasNext()) {
+                input = scanner.next();
+                if (input.equals("X")) {
+                    break;
+                } else if (input.matches("\\d+")) {
+                    // User entered a valid number as a string
+                    choice = Integer.parseInt(input);
+                    if (choice >= 1 && choice <= groceries.size()) {
+                        break;
+                    } else {
+                        System.out.printf("Invalid input. Enter between 1 - %d.", groceries.size());
+                    }
+                } else {
+                    System.out.printf("Invalid input. Enter between 1 - %d.", groceries.size());
+                }
+            }
+        }
+
+        if (!input.equals("X")) {
+            while (true) {
+                System.out.print("Enter the number of stocks: ");
+                if (scanner.hasNextInt()) {
+                    stock = scanner.nextInt();
+                    if (stock >= 0) {
+                        break; // Valid input, exit the loop
+                    } else {
+                        System.out.println("Invalid input. Enter a positive number.");
+                    }
+                } else {
+                    System.out.println("Invalid input. Enter a positive number.");
+                    scanner.next(); // Consume invalid input to avoid an infinite loop
+                }
+            }
+
+            groceries.get(choice - 1).addStock(stock);
+            GroceriesManager.saveGroceriesToFile(groceries, "groceries.txt");
+            System.out.println("Stock has been added!");
+            Thread.sleep(500);
+
+        }
+
+        displayStaffMenu();
     }
 
 }
