@@ -23,11 +23,11 @@ public class Payment extends Order {
     }
 
     public void calculateGrandTotal() {
-        this.grandTotal = getTotal() + (getTotal() * tax);
+        Payment.grandTotal = getTotal() + (getTotal() * tax);
     }
 
     public void setGrandTotal(double grandTotal) {
-        this.grandTotal = grandTotal;
+        Payment.grandTotal = grandTotal;
     }
 
     public double getGrandTotal() {
@@ -74,11 +74,7 @@ public class Payment extends Order {
 
         } while (!proceed.equals("y") && !proceed.equals("n"));
 
-        if (proceed.equals("y")) {
-            return true;
-        } else {
-            return false;
-        }
+        return proceed.equals("y");
     }
 
     public double pay(double balance) {

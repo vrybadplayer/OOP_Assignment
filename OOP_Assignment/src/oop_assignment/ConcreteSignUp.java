@@ -1,7 +1,5 @@
 package oop_assignment;
 
-import com.sun.source.tree.ContinueTree;
-import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -53,7 +51,6 @@ public class ConcreteSignUp extends SignUp {
                 System.out.println("This name is already registered. Please enter a different name.");
             } else if (name.isEmpty() || name == null) {
                 System.out.println("Username cannot be blank!");
-                continue;
             } else {
                 validName = true;
             }
@@ -92,7 +89,6 @@ public class ConcreteSignUp extends SignUp {
             mail = scanner.nextLine();
             if (mail.isEmpty() || mail == null) {
                 System.out.println("Mailing Address cannot be empty!");
-                continue;
             } else {
                 break;
             }
@@ -162,14 +158,4 @@ public class ConcreteSignUp extends SignUp {
         return phoneNumber.matches("\\d{3}-\\d{7}");
     }
 
-    private static void saveToFile(String name, String passWord, String email, String phoneNumber, String mail, int loyaltyPoints) {
-        try {
-            FileWriter fileWriter = new FileWriter("membership.txt", true);
-            try (BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-                bufferedWriter.write(name + "|" + passWord + "|" + email + "|" + phoneNumber + "|" + mail + "|" + loyaltyPoints + "|" + 0.0 + "\n");
-            }
-        } catch (IOException e) {
-            System.err.println("Error writing to file: " + e.getMessage());
-        }
-    }
 }

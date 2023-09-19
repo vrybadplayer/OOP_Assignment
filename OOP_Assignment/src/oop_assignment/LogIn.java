@@ -1,7 +1,6 @@
 package oop_assignment;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class LogIn implements CustomerManager {

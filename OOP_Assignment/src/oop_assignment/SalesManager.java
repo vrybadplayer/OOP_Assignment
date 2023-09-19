@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 public interface SalesManager {
 
@@ -58,8 +57,6 @@ public interface SalesManager {
 
         ArrayList<Integer> unsavedIndex = new ArrayList<>(Order.getGroceryIndex());
         ArrayList<Integer> unsavedAmount = new ArrayList<>(Order.getGroceryAmount());
-
-        Sales temp = new Sales();
 
         for (int j = 0; j < groceryIndex.size(); ++j) {
             int index = groceryIndex.get(j);

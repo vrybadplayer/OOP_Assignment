@@ -1,12 +1,10 @@
 package oop_assignment;
 
-import com.sun.source.tree.ContinueTree;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import static oop_assignment.Driver.displayMainMenu;
 
 public class Staff implements StaffManager {
 
@@ -33,12 +31,14 @@ public class Staff implements StaffManager {
     public void displayStaffMenu() throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
         int choice = 0;
-        System.out.println("   _____   _              __    __ \n"
-                + "  / ____| | |            / _|  / _| \n"
-                + " | (___   | |_    __ _  | |_  | |_  \n"
-                + "  \\___ \\  | __|  / _` | |  _| |  _| \n"
-                + "  ____) | | |_  | (_| | | |   | |   \n"
-                + " |_____/   \\__|  \\__,_| |_|   |_|   \n");
+        System.out.println("""
+                              _____   _              __    __ 
+                             / ____| | |            / _|  / _| 
+                            | (___   | |_    __ _  | |_  | |_  
+                             \\___ \\  | __|  / _` | |  _| |  _| 
+                             ____) | | |_  | (_| | | |   | |   
+                            |_____/   \\__|  \\__,_| |_|   |_|   
+                           """);
 
         System.out.println("[---+----------------------------]");
         System.out.printf("|%d) | %-26s |\n", 1, "Modify Customer Details");
@@ -122,19 +122,13 @@ public class Staff implements StaffManager {
         }
 
         switch (choice) {
-            case 1:
-                addGroceries();
-                break;
-            case 2:
-                removeGroceries();
-                break;
-            case 3:
-                displayStaffMenu();
-                break;
-            default:
+            case 1 -> addGroceries();
+            case 2 -> removeGroceries();
+            case 3 -> displayStaffMenu();
+            default -> {
                 System.out.println("Error!");
                 System.exit(0);
-                break;
+            }
         }
     }
 
@@ -220,7 +214,7 @@ public class Staff implements StaffManager {
             ArrayList<Groceries> groceries = GroceriesManager.loadGroceriesFile("groceries.txt");
             System.out.println("\n\nRemoving Groceries");
             System.out.println("------------------");
-            groceries.get(0).displayGroceries(groceries);
+            Groceries.displayGroceries(groceries);
             System.out.println("Which grocery do you want to remove?");
 
             while (true) {

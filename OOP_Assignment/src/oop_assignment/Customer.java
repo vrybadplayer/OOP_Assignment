@@ -1,12 +1,10 @@
 package oop_assignment;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Customer implements CustomerManager {
 
-    LogIn login = new LogIn();
     private String name;
     private String password;
     private String email;
@@ -28,7 +26,8 @@ public class Customer implements CustomerManager {
         this.loyaltyPoints = loyaltyPoints;
         this.balance = balance;
     }
-
+    
+    @Override
     public String toString() {
         return String.format("%s %s %s %s %s %d  %.2f\n", name, password, email, phoneNumber, mailingAddress, loyaltyPoints, balance);
     }

@@ -11,14 +11,14 @@ public class Order {
     static final double tax = 0.06;
     private int arrayListIndex = 0;
     private String decision = "";
-    private static ArrayList<Integer> groceryIndex = new ArrayList<Integer>();
-    private static ArrayList<Integer> groceryAmount = new ArrayList<Integer>();
-    private ArrayList<Double> subTotal = new ArrayList<Double>();
+    private static ArrayList<Integer> groceryIndex = new ArrayList<>();
+    private static ArrayList<Integer> groceryAmount = new ArrayList<>();
+    private ArrayList<Double> subTotal = new ArrayList<>();
 
     public Order() {
-        this.total = 0;
-        this.groceryIndex = new ArrayList<Integer>();
-        this.groceryAmount = new ArrayList<Integer>();
+        Order.total = 0;
+        Order.groceryIndex = new ArrayList<>();
+        Order.groceryAmount = new ArrayList<>();
     }
 
     public ArrayList<Double> getSubTotal() {
@@ -26,19 +26,19 @@ public class Order {
     }
 
     public void setGroceryIndex(ArrayList<Integer> groceryIndex) {
-        this.groceryIndex = groceryIndex;
+        Order.groceryIndex = groceryIndex;
     }
 
     public void setGroceryAmount(ArrayList<Integer> groceryAmount) {
-        this.groceryAmount = groceryAmount;
+        Order.groceryAmount = groceryAmount;
     }
 
     public void setGroceryIndex(ArrayList<Integer> groceryIndex, int indexNo) {
-        this.groceryIndex.set(arrayListIndex, indexNo);
+        Order.groceryIndex.set(arrayListIndex, indexNo);
     }
 
     public void setGroceryAmount(ArrayList<Integer> groceryAmount, int amount) {
-        this.groceryAmount.set(arrayListIndex, amount);
+        Order.groceryAmount.set(arrayListIndex, amount);
     }
 
     public void setSubTotal(ArrayList<Double> subTotal, ArrayList<Integer> groceryIndex, ArrayList<Integer> groceryAmount, ArrayList<Double> price) {
@@ -86,7 +86,7 @@ public class Order {
     }
 
     public void setTotal(double total) {
-        this.total = total;
+        Order.total = total;
     }
 
     public void addTotal(double price, int amount) {
@@ -94,7 +94,7 @@ public class Order {
     }
 
     public void updateGroceryAmount(int index, int amount) {
-        this.groceryAmount.set(index, groceryAmount.get(index) + amount);
+        Order.groceryAmount.set(index, groceryAmount.get(index) + amount);
     }
 
     //Linking
@@ -108,9 +108,7 @@ public class Order {
     }
 
     public void getOrder(Order order, ArrayList<Groceries> groceries) {
-        ArrayList<Sales> sales = SalesManager.loadSales("sales.txt");
         boolean updated = false;
-        boolean isNumber = false;
 
         do {
             Scanner scanner = new Scanner(System.in);

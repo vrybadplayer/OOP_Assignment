@@ -31,7 +31,6 @@ public class Stock {
     }
 
     public static ArrayList<Groceries> updateStock(ArrayList<Groceries> groceries) {
-        Order order;
         ArrayList<Integer> index = Order.getGroceryIndex();
         ArrayList<Integer> amount = Order.getGroceryAmount();
 
@@ -47,9 +46,6 @@ public class Stock {
 
     public static boolean isEnoughStock(int index, int amount) {
         ArrayList<Groceries> grocery = GroceriesManager.loadGroceriesFile("groceries.txt");
-        if (grocery.get(index).getStock() >= amount) {
-            return true;
-        }
-        return false;
+        return grocery.get(index).getStock() >= amount;
     }
 }

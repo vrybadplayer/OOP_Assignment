@@ -1,11 +1,6 @@
 package oop_assignment;
 
 import com.google.zxing.WriterException;
-import static com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.L;
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.lang.annotation.Repeatable;
 import java.util.*;
 import java.util.Scanner;
 
@@ -114,8 +109,6 @@ public class Driver {
                                     systemPause();
                                 }
                             }
-                        } else {
-                            continue;
                         }
                         break;
 
@@ -126,7 +119,6 @@ public class Driver {
                         } else if (!member) {
                             System.out.println("\nNon-members cannot redeem anything!\n");
                             systemPause();
-                            continue;
                         }
                         break;
                     case 3:
@@ -138,12 +130,12 @@ public class Driver {
                         } else if (!member) {
                             System.out.println("\nNon-members cannot top-up!\n");
                             systemPause();
-                            continue;
                         }
                         break;
                     default:
-                        //ERROR
-                        continue;
+                    //ERROR
+                        System.out.println("Error!");
+
                 }
             } while (!proceed);
         } while (choice != 4);
@@ -160,7 +152,7 @@ public class Driver {
 
     public static void displayOptions(ArrayList<Customer> customer) throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
-        int choice = 0;
+        int optionChoice = 0;
         System.out.println("""
                              _______ _____            _____   _____ _______       _____     _____ _____   ____   _____ ______ _____  _____ ______  _____ 
                             |__   __|  __ \\     /\\   |  __ \\ / ____|__   __|/\\   |  __ \\   / ____|  __ \\ / __ \\ / ____|  ____|  __ \\|_   _|  ____|/ ____|
@@ -178,8 +170,8 @@ public class Driver {
             while (true) {
                 System.out.print("Input 1, 2, or 3 only: ");
                 if (scanner.hasNextInt()) {
-                    choice = scanner.nextInt();
-                    if (choice >= 1 && choice <= 3) {
+                    optionChoice = scanner.nextInt();
+                    if (optionChoice >= 1 && optionChoice <= 3) {
                         break;
                     } else {
                         System.out.println("Invalid input!");
@@ -190,7 +182,7 @@ public class Driver {
                 }
             }
 
-            switch (choice) {
+            switch (optionChoice) {
                 case 1 -> {
                     //Implement Staff       
                     if (StaffManager.staffLogin()) {
@@ -212,7 +204,7 @@ public class Driver {
                 default ->
                     System.out.println("Please enter 1, 2 or 3 only !!!");
             }
-        } while (choice < 1 || choice > 3);
+        } while (optionChoice < 1 || optionChoice > 3);
     }
 
     public static void displayMainPage(ArrayList<Customer> customer) throws InterruptedException, Exception {
@@ -251,27 +243,18 @@ public class Driver {
             }
 
             switch (selection_member) {
-                case 1:
-                    customerIndex = logIn.membership(customer);
-                    break;
-                case 2:
-                    signUp.Signup();
-                    break;
-                case 3:
-                    member = false;
-                    break;
-                case 4:
-                    displayOptions(customer);
-                    break;
-                default:
-                    System.out.println("Please enter 1, 2, 3 or 4 only !!!");
+                case 1 -> customerIndex = logIn.membership(customer);
+                case 2 -> signUp.Signup();
+                case 3 -> member = false;
+                case 4 -> displayOptions(customer);
+                default -> System.out.println("Please enter 1, 2, 3 or 4 only !!!");
             }
         } while (selection_member < 1 || selection_member > 4);
     }
 
     public static int displayMainMenu(ArrayList<Customer> customer) throws InterruptedException, Exception {
         Scanner scanner = new Scanner(System.in);
-        int choice;
+        int menuChoice;
 
         do {
             System.out.println("[-------------------]");
@@ -283,8 +266,8 @@ public class Driver {
             while (true) {
                 System.out.print("Input: ");
                 if (scanner.hasNextInt()) {
-                    choice = scanner.nextInt();
-                    if (choice >= 1 && choice <= 4) {
+                    menuChoice = scanner.nextInt();
+                    if (menuChoice >= 1 && menuChoice <= 4) {
                         break;
                     } else {
                         System.out.println("Invalid input! Enter only 1, 2, 3 or 4!");
@@ -295,21 +278,21 @@ public class Driver {
                 }
             }
 
-            switch (choice) {
-                case 1:
-                    return choice;
-                case 2:
-                    return choice;
-                case 3:
-                    return choice;
-                case 4:
-                    displayOptions(customer);
-                    break;
-                default:
-                    System.out.println("Please enter 1, 2, 3 or 4 only !!!");
+            switch (menuChoice) {
+                case 1 -> {
+                    return menuChoice;
+                }
+                case 2 -> {
+                    return menuChoice;
+                }
+                case 3 -> {
+                    return menuChoice;
+                }
+                case 4 -> displayOptions(customer);
+                default -> System.out.println("Please enter 1, 2, 3 or 4 only !!!");
             }
-        } while (choice < 1 || choice > 4);
-        return choice;
+        } while (menuChoice < 1 || menuChoice > 4);
+        return menuChoice;
     }
 
 }

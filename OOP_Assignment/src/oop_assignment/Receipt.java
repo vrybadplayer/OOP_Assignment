@@ -32,11 +32,7 @@ public class Receipt implements PrintReceipt {
 
         } while (!printDecision.equals("y") && !printDecision.equals("n"));
 
-        if (printDecision.equals("y")) {
-            return true;
-        } else {
-            return false;
-        }
+        return printDecision.equals("y");
 
     }
 
