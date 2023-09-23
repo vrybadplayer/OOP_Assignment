@@ -58,10 +58,12 @@ public class Driver {
                         payment.getOrder(order, groceries);
 
                         //Display Output
-                        payment.displayOrders(groceries, order);
-                        payment.displayCash();
+                        if (Order.getGroceryIndex().size() != 0) {
+                            payment.displayOrders(groceries, order);
+                            payment.displayCash();
 
-                        proceed = payment.proceedPayment();
+                            proceed = payment.proceedPayment();
+                        }
 
                         if (!member && proceed) {
                             qr.setText("TrapStar Groceries Payment Form: https://forms.gle/gMsH1YaZiGL8PyX69");
@@ -133,7 +135,7 @@ public class Driver {
                         }
                         break;
                     default:
-                    //ERROR
+                        //ERROR
                         System.out.println("Error!");
 
                 }
@@ -243,11 +245,16 @@ public class Driver {
             }
 
             switch (selection_member) {
-                case 1 -> customerIndex = logIn.membership(customer);
-                case 2 -> signUp.Signup();
-                case 3 -> member = false;
-                case 4 -> displayOptions(customer);
-                default -> System.out.println("Please enter 1, 2, 3 or 4 only !!!");
+                case 1 ->
+                    customerIndex = logIn.membership(customer);
+                case 2 ->
+                    signUp.Signup();
+                case 3 ->
+                    member = false;
+                case 4 ->
+                    displayOptions(customer);
+                default ->
+                    System.out.println("Please enter 1, 2, 3 or 4 only !!!");
             }
         } while (selection_member < 1 || selection_member > 4);
     }
@@ -288,8 +295,10 @@ public class Driver {
                 case 3 -> {
                     return menuChoice;
                 }
-                case 4 -> displayOptions(customer);
-                default -> System.out.println("Please enter 1, 2, 3 or 4 only !!!");
+                case 4 ->
+                    displayOptions(customer);
+                default ->
+                    System.out.println("Please enter 1, 2, 3 or 4 only !!!");
             }
         } while (menuChoice < 1 || menuChoice > 4);
         return menuChoice;
